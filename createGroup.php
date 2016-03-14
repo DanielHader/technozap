@@ -6,7 +6,7 @@
 	$groupDesc = mysqli_escape_string($_POST["groupDesc"]);
 
 	// Check if a group already exists with the same name
-	if ($result = mysqli_query($conn, "SELECT * FROM Groups WHERE `name` LIKE '$groupName'")) {
+	if ($result = mysqli_query($conn, "SELECT * FROM groups WHERE `name` LIKE '$groupName'")) {
 		if (mysqli_num_rows($result) == 0) {
 			if (!mysqli_query($conn, "INSERT INTO groups (id, name, description) VALUES (null, '$groupName', '$groupDesc')"))
 				echo "An error occurred in creating this group: ".mysqli_error($conn);
