@@ -66,7 +66,97 @@ if($weevencooler == true) {
    session_destroy();
 }
 
-if($wenotcool == true) {
+if($loggedin == true) {
+?>	
+<html>
+	
+	<head>
+		<meta charset="UTF-8">
+		<title>cool website</title>
+	</head>
+
+	<body>
+		<img src="title.png">
+		<h1>yo! what's up guys?</h1>
+		<p>check out our website so far!</p>
+		<p>it's pretty rad</p>
+		
+		<p>Log in to your Technozap account</p>
+		<p>LOG IN SUCCESS</p>
+		<form name="loginForm" action="zap.php" method="GET">
+		Username:<br>
+		<input type="text" name="usr"><br>
+		Password:<br>
+		<input type="password" name="pswd"><br>
+		<input type="submit" value="Login">
+		</form>
+		
+		<p>Don't have an account? Register here!</p>
+		<form name="regForm" action="zap.php" method="GET">
+		First Name:<br>
+		<input type="text" name="fname"><br>
+		Last Name:<br>
+		<input type="text" name="lname"><br>
+		Username:<br>
+		<input type="text" name="usr2"><br>
+		Password:<br>
+		<input type="password" name="pswd2"><br>
+		Email:<br>
+		<input type="text" name="email"><br>
+		<input type="hidden" name="registered" value="hoi">
+		<input type="submit" value="Register">
+		</form>
+	</body>
+
+</html>
+<?php
+}
+else if($error == true) {
+?>
+<html>
+	
+	<head>
+		<meta charset="UTF-8">
+		<title>cool website</title>
+	</head>
+
+	<body>
+		<img src="title.png">
+		<h1>yo! what's up guys?</h1>
+		<p>check out our website so far!</p>
+		<p>it's pretty rad</p>
+		
+		<p>Log in to your Technozap account</p>
+		<p>ERROR LOGING IN. USERNAME AND/OR PASSWORD INCORRECT</p>
+		<form name="loginForm" action="zap.php" method="GET">
+		Username:<br>
+		<input type="text" name="usr"><br>
+		Password:<br>
+		<input type="password" name="pswd"><br>
+		<input type="submit" value="Login">
+		</form>
+		
+		<p>Don't have an account? Register here!</p>
+		<form name="regForm" action="zap.php" method="GET">
+		First Name:<br>
+		<input type="text" name="fname"><br>
+		Last Name:<br>
+		<input type="text" name="lname"><br>
+		Username:<br>
+		<input type="text" name="usr2"><br>
+		Password:<br>
+		<input type="password" name="pswd2"><br>
+		Email:<br>
+		<input type="text" name="email"><br>
+		<input type="hidden" name="registered" value="hoi">
+		<input type="submit" value="Register">
+		</form>
+	</body>
+
+</html>
+<?php
+}
+else if($wenotcool == true) {
 ?>
 <html>
 	
@@ -84,9 +174,9 @@ if($wenotcool == true) {
 		<p>Log in to your Technozap account</p>
 		<form name="loginForm" action="zap.php" method="GET">
 		Username:<br>
-		<input type="text" name="username"><br>
+		<input type="text" name="usr"><br>
 		Password:<br>
-		<input type="text" name="password"><br>
+		<input type="password" name="pswd"><br>
 		<input type="submit" value="Login">
 		</form>
 		
@@ -100,7 +190,7 @@ if($wenotcool == true) {
 		Username:<br>
 		<input type="text" name="usr2"><br>
 		Password:<br>
-		<input type="text" name="pswd2"><br>
+		<input type="password" name="pswd2"><br>
 		Email:<br>
 		<input type="text" name="email"><br>
 		<input type="hidden" name="registered" value="hoi">
@@ -129,9 +219,9 @@ else if($existing == true) {
 		<p>Log in to your Technozap account</p>
 		<form name="loginForm" action="zap.php" method="GET">
 		Username:<br>
-		<input type="text" name="username"><br>
+		<input type="text" name="usr"><br>
 		Password:<br>
-		<input type="text" name="password"><br>
+		<input type="password" name="pswd"><br>
 		<input type="submit" value="Login">
 		</form>
 		
@@ -145,7 +235,7 @@ else if($existing == true) {
 		Username:<br>
 		<input type="text" name="usr2"><br>
 		Password:<br>
-		<input type="text" name="pswd2"><br>
+		<input type="password" name="pswd2"><br>
 		Email:<br>
 		<input type="text" name="email"><br>
 		<input type="hidden" name="registered" value="hoi">
@@ -174,9 +264,9 @@ else if($omg == true) {
 		<p>Log in to your Technozap account</p>
 		<form name="loginForm" action="zap.php" method="GET">
 		Username:<br>
-		<input type="text" name="username"><br>
+		<input type="text" name="usr"><br>
 		Password:<br>
-		<input type="text" name="password"><br>
+		<input type="password" name="pswd"><br>
 		<input type="submit" value="Login">
 		</form>
 		
@@ -190,7 +280,7 @@ else if($omg == true) {
 		Username:<br>
 		<input type="text" name="usr2"><br>
 		Password:<br>
-		<input type="text" name="pswd2"><br>
+		<input type="password" name="pswd2"><br>
 		Email:<br>
 		<input type="text" name="email"><br>
 		<input type="hidden" name="registered" value="hoi">
@@ -219,9 +309,9 @@ else {
 		<p>Log in to your Technozap account</p>
 		<form name="loginForm" action="zap.php" method="GET">
 		Username:<br>
-		<input type="text" name="username"><br>
+		<input type="text" name="usr"><br>
 		Password:<br>
-		<input type="text" name="password"><br>
+		<input type="password" name="pswd"><br>
 		<input type="submit" value="Login">
 		</form>
 		
@@ -234,7 +324,7 @@ else {
 		Username:<br>
 		<input type="text" name="usr2"><br>
 		Password:<br>
-		<input type="text" name="pswd2"><br>
+		<input type="password" name="pswd2"><br>
 		Email:<br>
 		<input type="text" name="email"><br>
 		<input type="hidden" name="registered" value="hoi">
