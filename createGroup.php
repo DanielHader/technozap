@@ -2,8 +2,14 @@
 	require_once 'db_connect.php';
 
 	// Make sure you escape all user-inputted fields; this protects against SQL Injections
-	$groupName = mysqli_escape_string($_POST["groupName"]);
-	$groupDesc = mysqli_escape_string($_POST["groupDesc"]);
+	$groupName = mysqli_real_escape_string($conn, $_POST["groupName"]);
+	$groupDesc = mysqli_real_escape_string($conn, $_POST["groupDesc"]);
+
+	// Making sure that they don't just put an empty name / description
+	if (strlen($groupName) < 3 || strlen($groupDesc) < 10) {
+		echo "The group name must be at least 3 characters long and the description must be at least 10 characters long.";
+		return;
+	}
 
 	// Check if a group already exists with the same name
 	if ($result = mysqli_query($conn, "SELECT * FROM groups WHERE `name` LIKE '$groupName'")) {
