@@ -1,7 +1,7 @@
 <?php
 	$servername = "localhost";
-	$username = "admin";
-	$password = "password";
+	$username = "root";
+	$password = "root";
 	$database = "technozap";
 
 	$conn = mysqli_connect($servername, $username, $password, $database);
