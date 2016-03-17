@@ -1,9 +1,16 @@
 <?php
 	require_once 'db_connect.php';
+	session_start();
 
 	// Make sure you escape all user-inputted fields; this protects against SQL Injections
 	$groupName = mysqli_real_escape_string($conn, $_POST["groupName"]);
 	$groupDesc = mysqli_real_escape_string($conn, $_POST["groupDesc"]);
+
+	// Make sure the user is logged in
+	if (!isset($_SESSION["userId"])) {
+		echo "You must be logged in to create a group!";
+		return;
+	}
 
 	// Making sure that they don't just put an empty name / description
 	if (strlen($groupName) < 3 || strlen($groupDesc) < 10) {
@@ -16,6 +23,8 @@
 		if (mysqli_num_rows($result) == 0) {
 			if (!mysqli_query($conn, "INSERT INTO groups (id, name, description) VALUES (null, '$groupName', '$groupDesc')"))
 				echo "An error occurred in creating this group: ".mysqli_error($conn);
+			else
+				echo "Created group '$groupName'!";
 		} else
 			echo "There is already a group with the name '$groupName'!";
 
