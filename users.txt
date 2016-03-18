@@ -1,3 +1,0 @@
-testuser;testpassword;Andres;Hernandez;axh061@uark.edu
-johncena95;johncena;John;Cena;john@cena.com
-sadf;asdffds;Juan;Martinez;one@two.com
