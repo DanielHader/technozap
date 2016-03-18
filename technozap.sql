@@ -67,7 +67,7 @@ INSERT INTO `uglink` (`linkid`, `groupid`, `userid`) VALUES
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL,
   `username` text NOT NULL,
-  `password` text NOT NULL,
+  `hash` text NOT NULL,
   `first name` text NOT NULL,
   `last name` text NOT NULL,
   `email` text NOT NULL
@@ -76,9 +76,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 -- Dumping data for table `users`
 --
-
-INSERT INTO `users` (`id`, `username`, `password`, `first name`, `last name`, `email`) VALUES
-(1, 'john123', 'cena123', 'John', 'Cena', 'jcena@uark.edu');
 
 --
 -- Indexes for dumped tables
