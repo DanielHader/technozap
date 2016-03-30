@@ -10,19 +10,26 @@ function register($conn, $username, $password, $firstname, $lastname, $email, &$
 		return false;
 	}
 
-	// Check if an account already exists with the same username
-	if ($result = mysqli_query($conn, "SELECT * FROM users WHERE 'username' LIKE '$username'")) {
+	if ($result = mysqli_query($conn, "SELECT * FROM users WHERE `username` LIKE '$username'")) {
+		// Check if an account already exists with the same username
 		if (mysqli_num_rows($result) == 0) {
-
 			$hash = password_hash($password, PASSWORD_DEFAULT);
 			
-			if (!mysqli_query($conn, "INSERT INTO users (`id`, `username`, `hash`, `first name`, `last name`, `email`) VALUES (null, '$username', '$hash', '$firstname', '$lastname', '$email')")) {
-				$message = "An error occurred in creating your account: ".mysqli_error($conn);
-				$success = false;
+			// Check if email is already in use
+			$result = mysqli_query($conn, "SELECT * FROM users WHERE `email` LIKE '$email'");
+			if (mysqli_num_rows($result) == 0) {
+				if (!mysqli_query($conn, "INSERT INTO users (`id`, `username`, `password`, `first name`, `last name`, `email`) VALUES (null, '$username', '$hash', '$firstname', '$lastname', '$email')")) {
+					$message = "An error occurred in creating your account: ".mysqli_error($conn);
+					$success = false;
+				} else {
+					$message = "Registered!";
+					$success = true;
+				}
 			} else {
-				$message = "Registered!";
-				$success = true;
+				$message = "That email is already in use!";
+				$success = false;
 			}
+
 		} else {
 			$message = "There is already an user with the name username!";
 			$success = false;
