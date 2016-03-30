@@ -4,21 +4,21 @@ require_once "util.php";
 function login($conn, $username, $password, &$user_id, &$message) {
 
 	cleanStrings($conn, $username, $password);
-	$query = "SELECT hash, id FROM users WHERE username = '$username' LIMIT 1";
+	$query = "SELECT password, id FROM users WHERE `username` = '$username' LIMIT 1";
 	
 	if ($result = mysqli_query($conn, $query)) {
 		if (mysqli_num_rows($result) == 0) {
-			$message = "Invalid username: " . $username;
+			$message = "Incorrect username and password combination!";
 			$success = false;
 		} else {
 			$row = mysqli_fetch_array($result);
 			//echo $row["hash"];
-			if (password_verify($password, $row["hash"])) {
+			if (password_verify($password, $row["password"])) {
 				$user_id = $row["id"];
 				$message = "You are now logged in";
 				$success = true;
 			} else {
-				$message = "Incorrect password!";
+				$message = "Incorrect username and password combination!";
 				$success = false;
 			}
 		}
