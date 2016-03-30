@@ -111,41 +111,45 @@ function generateHTML($message) {
 	<?php
 }
 
-$conn = connect();
-$message = "";
+	$conn = connect();
+	if (!$conn)
+		die("Could not connect to MySQL server: ".mysqli_connect_error());
 
-if (isset($_POST["logout"])) {
-	
-	$message = "you are now logged out";
-	unset($_SESSION["userId"]);
-	unset($_POST["logout"]);
+	$message = "";
 
-} else if (isset($_POST["register"])) {
-	
-	register($conn, $_POST["username"], $_POST["password"], $_POST["firstname"], $_POST["lastname"], $_POST["email"], $message);
-	unset($_POST["register"]);
+	if (isset($_POST["logout"])) {
+		
+		$message = "you are now logged out";
+		unset($_SESSION["userId"]);
+		unset($_POST["logout"]);
 
-} else if (isset($_POST["create_group"])) {
-	
-	createGroup($conn, $_POST["groupName"], $_POST["groupDesc"], $message);
-	unset($_POST["create_group"]);
+	} else if (isset($_POST["register"])) {
+		
+		register($conn, $_POST["username"], $_POST["password"], $_POST["firstname"], $_POST["lastname"], $_POST["email"], $message);
+		unset($_POST["register"]);
 
-} else if (isset($_POST["login"])) {
+	} else if (isset($_POST["create_group"])) {
+		
+		createGroup($conn, $_POST["groupName"], $_POST["groupDesc"], $message);
+		unset($_POST["create_group"]);
 
-	$userId = 0;
+	} else if (isset($_POST["login"])) {
 
-	if (login($conn, $_POST["username"], $_POST["password"], $userId, $message)) {
-		$_SESSION["userId"] = $userId;
+		$userId = 0;
+
+		if (login($conn, $_POST["username"], $_POST["password"], $userId, $message)) {
+			$_SESSION["userId"] = $userId;
+		}
+		
+		unset($_POST["login"]);
+
+	} else if (isset($_POST["join_group"])) {
+
+		joinGroup($conn, $_POST["group_select"], $_SESSION["userId"], $message);
+		unset($_POST["join_group"]);
 	}
-	
-	unset($_POST["login"]);
 
-} else if (isset($_POST["join_group"])) {
+	generateHTML($message);
 
-	joinGroup($conn, $_POST["group_select"], $_SESSION["userId"], $message);
-	unset($_POST["join_group"]);
-}
-
-generateHTML($message);
-
-close($conn);
+	close($conn);
+?>
