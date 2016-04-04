@@ -15,8 +15,8 @@ function joinGroup($conn, $group_select, $userId, &$message) {
 				$groupId = mysqli_fetch_array($result)["id"];
 
 				// Checks if the user is already a part of this group
-				$result = mysqli_query($conn, "SELECT * FROM uglink WHERE `groupid` = '$groupId', `userid` = '$userId'");
-				if (mysqli_num_rows($result) > 0) {
+				$result = mysqli_query($conn, "SELECT * FROM uglink WHERE `groupid` = '$groupId' AND `userid` = '$userId'");
+				if (mysqli_num_rows($result) == 0) {
 					if (!mysqli_query($conn, "INSERT INTO uglink (linkid, groupid, userid) VALUES (null, '$groupId', '$userId')"))
 						$message .= "<p>An error occurred in joining the group: ".mysqli_error($conn)."</p>";
 					else
