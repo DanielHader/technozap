@@ -4,6 +4,9 @@ require_once "util/createGroup.php";
 require_once "util/joinGroup.php";
 require_once "util/login.php";
 require_once "util/register.php";
+require_once "util/getGroupPosts.php";
+require_once "util/doPost.php";
+require_once "util/leaveGroup.php";
 
 session_start();
 
@@ -81,6 +84,81 @@ function joinGroupForm() {
 <?php
 }
 
+function leaveGroupForm() {
+	$conn = connect();
+	$groups	= getGroupList($conn);
+	close($conn);
+?>
+	<div id="leave_group_div">
+		Leave Group
+		<form action="index.php" method="POST">
+			<select name="group_select[]" multiple="multiple">
+			
+			<?php
+			foreach ($groups as $group) {
+				echo "<option value=\"$group[0]\">$group[0]</option>";
+			}
+			?>
+
+			</select>
+			<input type="text" hidden="true" name="leave_group" value="1">
+			<input type="submit" value="leave">
+		</form>
+	</div>
+<?php
+}
+
+function viewGroupContentForm() {
+	$conn = connect();
+	$groups	= getGroupList($conn);
+	close($conn);
+?>
+	<div id="view_group_div">
+		View Group Content
+		<form action="index.php" method="POST">
+			<select name="group_select[]" multiple="multiple">
+			
+			<?php
+			foreach ($groups as $group) {
+				echo "<option value=\"$group[0]\">$group[0]</option>";
+			}
+			?>
+
+			</select>
+			<input type="text" hidden="true" name="view_group" value="1">
+			<input type="submit" value="view">
+		</form>
+	</div>
+<?php
+}
+
+function doPostForm() {
+	$conn = connect();
+	$groups	= getGroupList($conn);
+	close($conn);
+?>
+	<div id="post_group_div">
+		Post
+		<form action="index.php" method="POST">
+			<select name="group_select[]" multiple="multiple">
+			
+			<?php
+			foreach ($groups as $group) {
+				echo "<option value=\"$group[0]\">$group[0]</option>";
+			}
+			?>
+
+			</select>
+			<br>
+			<input type="text" name="post_group_content">
+			<input type="text" hidden="true" name="post_group" value="1">
+			<input type="submit" value="post">
+		</form>
+	</div>
+<?php
+}
+
+
 function generateHTML($message) {
 	
 	?>
@@ -101,8 +179,14 @@ function generateHTML($message) {
 		logoutForm();
 		echo "<hr>";
 		createGroupForm();
-		echo"<hr>";
+		echo "<hr>";
 		joinGroupForm();
+		echo "<hr>";
+		leaveGroupForm();
+		echo "<hr>";
+		viewGroupContentForm();
+		echo "<hr>";
+		doPostForm();
 	}
 
 	?>
@@ -116,37 +200,33 @@ function generateHTML($message) {
 		die("Could not connect to MySQL server: ".mysqli_connect_error());
 
 	$message = "";
-
 	if (isset($_POST["logout"])) {
-		
 		$message = "you are now logged out";
 		unset($_SESSION["userId"]);
 		unset($_POST["logout"]);
-
 	} else if (isset($_POST["register"])) {
-		
 		register($conn, $_POST["username"], $_POST["password"], $_POST["firstname"], $_POST["lastname"], $_POST["email"], $message);
 		unset($_POST["register"]);
-
 	} else if (isset($_POST["create_group"])) {
-		
 		createGroup($conn, $_POST["groupName"], $_POST["groupDesc"], $message);
 		unset($_POST["create_group"]);
-
 	} else if (isset($_POST["login"])) {
-
 		$userId = 0;
-
-		if (login($conn, $_POST["username"], $_POST["password"], $userId, $message)) {
+		if (login($conn, $_POST["username"], $_POST["password"], $userId, $message))
 			$_SESSION["userId"] = $userId;
-		}
-		
 		unset($_POST["login"]);
-
 	} else if (isset($_POST["join_group"])) {
-
 		joinGroup($conn, $_POST["group_select"], $_SESSION["userId"], $message);
 		unset($_POST["join_group"]);
+	} else if (isset($_POST["leave_group"])) {
+		leaveGroup($conn, $_POST["group_select"], $_SESSION["userId"], $message);
+		unset($_POST["leave_group"]);
+	} else if (isset($_POST["view_group"])) {
+		viewGroupContent($conn, $_POST["group_select"], $message);
+		unset($_POST["view_group"]);
+	} else if (isset($_POST["post_group"])) {
+		doPost($conn, $_SESSION["userId"], $_POST["group_select"], $_POST["post_group_content"], $message);
+		unset($_POST["post_group"]);
 	}
 
 	generateHTML($message);
