@@ -1,8 +1,11 @@
 <html>
+<head>
 <title>Log in or Register</title>
-<body bgcolor="lightblue">
-<h1><center>Welcome to Techno Zap! Please register or log in below</center></h1>
-<div style="width:400px; margin-right:auto; margin-left:auto; border:1px solid #000;">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1> Welcome to TechnoZap!</h1>
+<div>
 	<form action="LoginReg.php" method="POST">
 	    <b>Don't have an account? Register below!</b><br>
 		Username:	<input type="text" name="username"><br>
@@ -14,12 +17,10 @@
 		<input type="text" hidden="true" name="register" value="1">
 		<input type="submit" value="Register">
 	</form>
-</div>
 <br>
 <br>
 <br>
-<div style="width:400px; margin-right:auto; margin-left:auto; border:1px solid #000;">
-	<form action="LoginReg.php" method="POST">
+	<form action="LoginReg.php" method="POST" id="form2">
 	    <b>Returning user? Log in below!</b><br>
 		Username:	<input type="text" name="username"><br>
 		Password:	<input type="password" name="password"><br>
