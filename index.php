@@ -7,6 +7,8 @@ require_once "util/register.php";
 require_once "util/getGroupPosts.php";
 require_once "util/doPost.php";
 require_once "util/leaveGroup.php";
+require_once "util/changeUserInfo.php";
+require_once "util/sendRecoveryEmail.php";
 
 session_start();
 
@@ -21,6 +23,17 @@ function registerForm() {
 		
 		<input type="text" hidden="true" name="register" value="1">
 		<input type="submit" value="Register">
+	</form>
+<?php
+}
+
+function sendRecoveryEmailForm() {
+?>
+	<form action="index.php" method="POST">
+		Email:	<input type="text" name="email"><br>
+		
+		<input type="text" hidden="true" name="sendRecoveryEmail" value="1">
+		<input type="submit" value="Recover account">
 	</form>
 <?php
 }
@@ -158,6 +171,20 @@ function doPostForm() {
 <?php
 }
 
+function changeUserInfoForm() {
+?>
+	<form action="index.php" method="POST">
+		Password:	<input type="password" name="password"><br>
+		First Name:	<input type="text" name="firstname"><br>
+		Last Name:	<input type="text" name="lastname"><br>
+		Email:		<input type="text" name="email"><br>
+		
+		<input type="text" hidden="true" name="changeUserInfo" value="1">
+		<input type="submit" value="Update">
+	</form>
+<?php
+}
+
 
 function generateHTML($message) {
 	
@@ -174,6 +201,8 @@ function generateHTML($message) {
 		loginForm();
 		echo "<hr>";
 		registerForm();
+		echo "<hr>";
+		sendRecoveryEmailForm();
 	
 	} else {
 		logoutForm();
@@ -187,6 +216,8 @@ function generateHTML($message) {
 		viewGroupContentForm();
 		echo "<hr>";
 		doPostForm();
+		echo "<hr>";
+		changeUserInfoForm()
 	}
 
 	?>
@@ -207,14 +238,20 @@ function generateHTML($message) {
 	} else if (isset($_POST["register"])) {
 		register($conn, $_POST["username"], $_POST["password"], $_POST["firstname"], $_POST["lastname"], $_POST["email"], $message);
 		unset($_POST["register"]);
-	} else if (isset($_POST["create_group"])) {
-		createGroup($conn, $_POST["groupName"], $_POST["groupDesc"], $message);
-		unset($_POST["create_group"]);
+	} else if (isset($_POST["changeUserInfo"])) {
+		changeUserInfo($conn, $_SESSION["userId"], $_POST["password"], $_POST["firstname"], $_POST["lastname"], $_POST["email"], $message);
+		unset($_POST["changeUserInfo"]);
+	} else if (isset($_POST["sendRecoveryEmail"])) {
+		sendRecoveryEmail($conn, $_POST["email"], $message);
+		unset($_POST["sendRecoveryEmail"]);
 	} else if (isset($_POST["login"])) {
 		$userId = 0;
 		if (login($conn, $_POST["username"], $_POST["password"], $userId, $message))
 			$_SESSION["userId"] = $userId;
 		unset($_POST["login"]);
+	} else if (isset($_POST["create_group"])) {
+		createGroup($conn, $_POST["groupName"], $_POST["groupDesc"], $message);
+		unset($_POST["create_group"]);
 	} else if (isset($_POST["join_group"])) {
 		joinGroup($conn, $_POST["group_select"], $_SESSION["userId"], $message);
 		unset($_POST["join_group"]);
