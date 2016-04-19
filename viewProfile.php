@@ -19,12 +19,69 @@
 	if ($result = mysqli_query($conn, "SELECT * FROM `users` WHERE `username` LIKE '$viewUsername'")) {
 		if (mysqli_num_rows($result) > 0) {
 			$info = mysqli_fetch_array($result);
-			echo "[picture here maybe]<br>";
+?>
+<html>
+<head>
+<style>
+h2 {
+   	   color: yellow;
+   	   text-align: center;
+   	   letter-spacing: 2px;
+   	   font-family: "Times New Roman", Times, serif;
+   	   font-style: italic;
+   	   font-size: 50px;
+   	   font-weight: bold;
+  	   font-variant: small-caps;
+	}
+body {
+	background-color: black;
+	color: white;
+}
+form {
+          text-align: center;
+          margin-left: 530px;
+          margin-right: 530px;
+          margin-bottom: 10px;
+          border: 2px solid yellow;
+       }
+form.idk {
+	border: 2px solid black;
+}
+input[type=submit] {
+    padding:5px 15px; 
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    margin-bottom: 10px;
+}
+input[type=text] {
+    border: 2px solid red;
+    border-radius: 4px;
+}
+p {
+       	color: yellow;
+   	   text-align: center;
+   	   letter-spacing: 2px;
+   	   font-family: "Times New Roman", Times, serif;
+   	   font-style: italic;
+   	   font-size: 20px;
+   	   font-weight: bold;
+  	   font-variant: small-caps;
+       }
+</style>
+</head>
+<body>
+
+
+
+<?php
 			echo '<h2>'.$info["first name"].' '.$info["last name"].'</h2>';
 
 			if (isset($_SESSION["username"]) && strcmp($_SESSION["username"], $_GET["user"]) == 0) {
 				// Logout form
-				echo '<form action="'.($_SERVER["PHP_SELF"]).'?user='.$_SESSION["username"].'" method="POST">';
+				echo '<form class="idk" action="'.($_SERVER["PHP_SELF"]).'?user='.$_SESSION["username"].'" method="POST">';
 				echo '<input type="submit" name="logout" value="Logout">';
 				echo '</form>';
 
@@ -32,6 +89,7 @@
 				// Create group form
 				echo $createGroup_notify."<br>";
 				echo '<form action="'.($_SERVER["PHP_SELF"]).'?user='.$_SESSION["username"].'" method="POST">';
+				echo '<p>Create Group</p>';
 				echo 'Group Name:<br><input type="text" name="groupName"><br>';
 				echo 'Group Description:<br><input type="text" name="groupDesc"><br><br>';
 				echo '<input type="submit" name="createGroup" value="Create group">';
@@ -42,8 +100,8 @@
 				// View group form
 				$groups = getGroupList($conn);
 				echo '<div id="view_group_div">';
-				echo 'View Group';
 				echo '<form action="displayGroup.php" method="GET">';
+				echo '<p>View Group</p>';
 				echo '<select name="groupName">';
 
 				foreach ($groups as $group)
@@ -61,3 +119,5 @@
 		mysqli_free_result($result);
 	}
 ?>
+</body>
+</html>
