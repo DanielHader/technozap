@@ -3,7 +3,6 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 if(isset($_SESSION["name"]) && isset($_POST["text"])) {
-	echo $_POST["text"];
 	$text = $_POST["text"];
 
 	$fp = fopen("log.html", "a");
@@ -64,7 +63,5 @@ function renderChatBox() {
 	</script>
 <?php
 }
-
-
 
 ?>
