@@ -34,6 +34,63 @@
 
 <html>
 	<title>TechnoZap</title>
+	<head>
+        <style>
+        h1 {
+   	   color: yellow;
+   	   text-align: center;
+   	   letter-spacing: 2px;
+   	   font-family: "Times New Roman", Times, serif;
+   	   font-style: italic;
+   	   font-size: 50px;
+   	   font-weight: bold;
+  	   font-variant: small-caps;
+	}
+        body {
+	   background-color: black;
+	   color: white;
+        }
+        form {
+           text-align: center;
+           margin-left: 530px;
+           margin-right: 530px;
+           margin-bottom: 10px;
+           border: 2px solid yellow;
+        }
+        p {
+       	color: yellow;
+   	text-align: center;
+   	letter-spacing: 2px;
+   	font-family: "Times New Roman", Times, serif;
+   	font-style: italic;
+   	font-size: 20px;
+   	font-weight: bold;
+  	font-variant: small-caps;
+        }
+       input[type=text] {
+    border: 2px solid red;
+    border-radius: 4px;
+}
+     input[type=password] {
+    border: 2px solid red;
+    border-radius: 4px;
+}
+     input[type=email] {
+    border: 2px solid red;
+    border-radius: 4px;
+}
+input[type=submit] {
+    padding:5px 15px; 
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    margin-bottom: 10px;
+}
+       </style>
+       </head>
+       <body>
 	<h1>TechnoZap</h1>
 
 	<?php
@@ -71,4 +128,5 @@
 			exit();
 		}
 	?>
+</body>
 </html>
