@@ -44,6 +44,11 @@
 						echo '<input type="submit" name="joinGroup" value="Join group">';
 						echo '</form>';
 					}
+
+					//back to profile button
+					echo '<form action="viewProfile.php" method="POST">';
+					echo '<input type="submit" name="returnProfile" value="Return to Profile">';
+					echo '</form>';
 				}
 			}
 
