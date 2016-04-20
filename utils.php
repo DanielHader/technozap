@@ -34,6 +34,18 @@
 		}
 	}
 
+	function doUpdateSettings($conn, $password, $fname, $lname, $email, &$update_notify) {
+		if ($result = mysqli_query($conn, "SELECT `id` FROM `users` WHERE `email` LIKE '".$email."' ")) {
+			if (mysqli_num_rows($result) == 0) {
+				$hashed = hash("sha256", "SUPERSECRETSALT".$password);
+				if (mysqli_query($conn, "UPDATE users SET `password` = '$hash', `first name` = '$firstname', `last name` = '$lastname', `email` = '$email' WHERE `id` = '$userid'"))
+					$update_notify = "Settings updated!<br>";
+			} else
+				$update_notify = "That email has already been taken.<br>";
+			mysqli_free_result($result);
+		}
+	}	
+
 	function createGroup($conn, $groupName, $groupDesc, &$createGroup_notify) {
 		$groupName = mysqli_real_escape_string($conn, $groupName);
 		$groupDesc = mysqli_real_escape_string($conn, $groupDesc);
@@ -69,6 +81,19 @@
 		return $groups;
 	}
 
+	function getUserGroupList($conn, $userId) {
+		$userGroups = [];
+		if ($result = mysqli_query($conn, "SELECT `groupName` FROM `uglink` WHERE `userid` = '$userId'")) {
+			while ($row = mysqli_fetch_array($result))
+				$userGroups[] = array($row["groupName"]);
+
+			mysqli_free_result($result);
+		} else
+			return NULL;
+
+		return $userGroups;
+	}	
+
 	function getGroupPosts($conn, $groupId, &$output) {
 		if ($result = mysqli_query($conn, "SELECT * FROM posts WHERE `groupid` = '$groupId' ORDER BY `date` DESC")) {
 			while ($curPost = mysqli_fetch_array($result, MYSQLI_ASSOC))
@@ -78,12 +103,12 @@
 		}
 	}
 
-	function leaveGroup($conn, $userId, $groupId) {
-		mysqli_query($conn, "DELETE FROM `uglink` WHERE `groupid` = '$groupId' AND `userId` = '$userId' LIMIT 1");
+	function leaveGroup($conn, $userId, $groupname) {
+		mysqli_query($conn, "DELETE FROM `uglink` WHERE `groupName` = '$groupname' AND `userId` = '$userId' LIMIT 1");
 	}
 
-	function joinGroup($conn, $userId, $groupId) {
-		mysqli_query($conn, "INSERT INTO `uglink` (`linkid`, `groupid`, `userid`) VALUES (NULL, '$groupId', '$userId')");
+	function joinGroup($conn, $userId, $groupname) {
+		mysqli_query($conn, "INSERT INTO `uglink` (`linkid`, `groupName`, `userid`) VALUES (NULL, '$groupname', '$userId')");
 	}
 
 	function doPost($conn, $groupId, $content) {
