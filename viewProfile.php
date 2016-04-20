@@ -7,6 +7,7 @@
 	$update_notify = "";
 
 	if (!isset($_GET["user"])) {
+		var_dump($_GET);
 		echo '<h2>Uh oh, you have 404\'d!</h2>';
 		exit();
 	} else if (isset($_POST["createGroup"])) {

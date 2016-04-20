@@ -64,33 +64,19 @@
 	if (!isset($_GET["groupName"])) {
 		echo '<h2>Uh oh, you have 404\'d!</h2>';
 		exit();
-<<<<<<< HEAD
 	}
 
 	$groupName = mysqli_escape_string($conn, $_GET["groupName"]);
-
+	
 	if (isset($_POST["leaveGroup"])) {
-	
-		leaveGroup($conn, $_SESSION["userId"], $_POST["groupId"]);
-	
+		leaveGroup($conn, $_SESSION["userId"], $_POST["groupName"]);
 	}
 	if (isset($_POST["joinGroup"])) {
-	
-		joinGroup($conn, $_SESSION["userId"], $_POST["groupId"]);
-	
+		joinGroup($conn, $_SESSION["userId"], $_POST["groupName"]);
 	}
 	if (isset($_POST["postGroup"])) {
-	
-=======
-	} else if (isset($_POST["leaveGroup"])) {
-		leaveGroup($conn, $_SESSION["userId"], $_POST["groupName"]);
-	} else if (isset($_POST["joinGroup"])) {
-		joinGroup($conn, $_SESSION["userId"], $_POST["groupName"]);
-	} else if (isset($_POST["postGroup"])) {
->>>>>>> 93e67db9f964c6a802739e4aedf2f3b3b6d4a9a8
 		doPost($conn, $_POST["groupId"], $_POST["postContent"]);
 		unset($_POST["postContent"]);
-	
 	}
 	if (isset($_POST["postChat"])) {
 		$text = $_POST["postChat"];
@@ -109,17 +95,13 @@
 			echo '<h3>'.$info["description"].'</h3>';
 
 			if (isset($_SESSION["userId"])) {
-<<<<<<< HEAD
-				if ($result = mysqli_query($conn, "SELECT `linkid` FROM `uglink` WHERE `groupid` = '".$info["id"]."' AND `userid` = '".$_SESSION["userId"]."'")) {
+				if ($result = mysqli_query($conn, "SELECT `linkid` FROM `uglink` WHERE `groupName` = '".$info["name"]."' AND `userid` = '".$_SESSION["userId"]."'")) {
 
 					//back to profile button
 					echo '<form action="viewProfile.php?user='.($_SESSION["username"]).'" method="POST">';
 					echo '<input type="submit" name="returnProfile" value="Return to Profile">';
 					echo '</form>';
 
-=======
-				if ($result = mysqli_query($conn, "SELECT `linkid` FROM `uglink` WHERE `groupName` = '".$info["name"]."' AND `userid` = '".$_SESSION["userId"]."'")) {
->>>>>>> 93e67db9f964c6a802739e4aedf2f3b3b6d4a9a8
 					if (mysqli_num_rows($result) > 0) {
 						// leave group button
 						echo '<form action="'.($_SERVER["PHP_SELF"]).'?groupName='.$info["name"].'" method="POST">';
