@@ -35,10 +35,10 @@
 	}
 
 	function doUpdateSettings($conn, $password, $fname, $lname, $email, &$update_notify) {
-		if ($result = mysqli_query($conn, "SELECT `id` FROM `users` WHERE `email` LIKE '".$email."' ")) {
+		if ($result = mysqli_query($conn, "SELECT `id` FROM `users` WHERE `email` LIKE '$email' AND `id` !=  '".$_SESSION["userId"]."'")) {
 			if (mysqli_num_rows($result) == 0) {
 				$hashed = hash("sha256", "SUPERSECRETSALT".$password);
-				if (mysqli_query($conn, "UPDATE users SET `password` = '$hash', `first name` = '$firstname', `last name` = '$lastname', `email` = '$email' WHERE `id` = '$userid'"))
+				if (mysqli_query($conn, "UPDATE users SET `password` = '$hashed', `first name` = '$fname', `last name` = '$lname', `email` = '$email' WHERE `id` = '".$_SESSION["userId"]."'"))
 					$update_notify = "Settings updated!<br>";
 			} else
 				$update_notify = "That email has already been taken.<br>";
