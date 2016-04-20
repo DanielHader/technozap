@@ -19,7 +19,7 @@
 	    session_write_close();
 	    setcookie(session_name(),'',0,'/');
 	    session_regenerate_id(true);
-	    header("Location: ../");
+	    header("Location: ../TechnoZap/");
 	}
 
 	function doRegister($conn, $username, $password, $fname, $lname, $email, &$register_notify) {
