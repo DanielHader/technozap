@@ -85,7 +85,36 @@ p {
 				echo '<input type="submit" name="logout" value="Logout">';
 				echo '</form>';
 
-				
+				// View user's groups
+				$userGroups = getUserGroupList($conn, $_SESSION["userId"]);
+				echo '<div id="view_user_group_div">';
+				echo '<form action="displayGroup.php" method="GET">';
+				echo '<p>My Groups</p>';
+				echo '<select name="groupName">';
+
+				foreach ($userGroups as $userGroup)
+					echo "<option value=\"$userGroup[0]\">$userGroup[0]</option>";
+
+				echo '</select><br><br>';
+				echo '<input type="submit" value="View">';
+				echo '</form>';
+				echo '</div>';	
+
+				// View group form
+				$groups = getGroupList($conn);
+				echo '<div id="view_group_div">';
+				echo '<form action="displayGroup.php" method="GET">';
+				echo '<p>All Groups</p>';
+				echo '<select name="groupName">';
+
+				foreach ($groups as $group)
+					echo "<option value=\"$group[0]\">$group[0]</option>";
+
+				echo '</select><br><br>';
+				echo '<input type="submit" value="View">';
+				echo '</form>';
+				echo '</div>';
+
 				// Create group form
 				echo $createGroup_notify."<br>";
 				echo '<form action="'.($_SERVER["PHP_SELF"]).'?user='.$_SESSION["username"].'" method="POST">';
@@ -97,21 +126,6 @@ p {
 
 				echo '<br><br>';
 
-				// View group form
-				$groups = getGroupList($conn);
-				echo '<div id="view_group_div">';
-				echo '<form action="displayGroup.php" method="GET">';
-				echo '<p>View Group</p>';
-				echo '<select name="groupName">';
-
-				foreach ($groups as $group)
-					echo "<option value=\"$group[0]\">$group[0]</option>";
-
-				echo '</select><br><br>';
-				echo '<input type="submit" value="View">';
-				echo '</form>';
-				echo '</div>';
-				//
 			}
 		} else
 			echo '<h2>Uh oh, you have 404\'d!</h2>';

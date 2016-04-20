@@ -19,7 +19,7 @@
 	    session_write_close();
 	    setcookie(session_name(),'',0,'/');
 	    session_regenerate_id(true);
-	    header("Location: ../TechnoZap/");
+	    header("Location: ../");
 	}
 
 	function doRegister($conn, $username, $password, $fname, $lname, $email, &$register_notify) {
@@ -69,6 +69,19 @@
 		return $groups;
 	}
 
+	function getUserGroupList($conn, $userId) {
+		$userGroups = [];
+		if ($result = mysqli_query($conn, "SELECT `groupName` FROM `uglink` WHERE `userid` = '$userId'")) {
+			while ($row = mysqli_fetch_array($result))
+				$userGroups[] = array($row["groupName"]);
+
+			mysqli_free_result($result);
+		} else
+			return NULL;
+
+		return $userGroups;
+	}	
+
 	function getGroupPosts($conn, $groupId, &$output) {
 		if ($result = mysqli_query($conn, "SELECT * FROM posts WHERE `groupid` = '$groupId' ORDER BY `date` DESC")) {
 			while ($curPost = mysqli_fetch_array($result, MYSQLI_ASSOC))
@@ -78,12 +91,12 @@
 		}
 	}
 
-	function leaveGroup($conn, $userId, $groupId) {
-		mysqli_query($conn, "DELETE FROM `uglink` WHERE `groupid` = '$groupId' AND `userId` = '$userId' LIMIT 1");
+	function leaveGroup($conn, $userId, $groupname) {
+		mysqli_query($conn, "DELETE FROM `uglink` WHERE `groupName` = '$groupname' AND `userId` = '$userId' LIMIT 1");
 	}
 
-	function joinGroup($conn, $userId, $groupId) {
-		mysqli_query($conn, "INSERT INTO `uglink` (`linkid`, `groupid`, `userid`) VALUES (NULL, '$groupId', '$userId')");
+	function joinGroup($conn, $userId, $groupname) {
+		mysqli_query($conn, "INSERT INTO `uglink` (`linkid`, `groupName`, `userid`) VALUES (NULL, '$groupname', '$userId')");
 	}
 
 	function doPost($conn, $groupId, $content) {
