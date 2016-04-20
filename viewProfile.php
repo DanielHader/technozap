@@ -4,12 +4,24 @@
 	require_once "utils.php";
 
 	$createGroup_notify = "";
+	$update_notify = "";
 
 	if (!isset($_GET["user"])) {
 		echo '<h2>Uh oh, you have 404\'d!</h2>';
 		exit();
 	} else if (isset($_POST["createGroup"])) {
 		createGroup($conn, $_POST["groupName"], $_POST["groupDesc"], $createGroup_notify);
+	} else if (isset($_POST["updateSettings"])) {
+		$password = mysqli_real_escape_string($conn, $_POST["password"]);
+		$fname = mysqli_real_escape_string($conn, $_POST["fname"]);
+		$lname = mysqli_real_escape_string($conn, $_POST["lname"]);
+		$email = mysqli_real_escape_string($conn, $_POST["email"]);
+
+		if (strlen($fname) >= 3 && strlen($lname) >= 3 && strlen($password) >= 5)
+			doUpdateSettings($conn, $password, $fname, $lname, $email, $update_notify);
+		else
+			$update_notify = "Your first and last name should each be at least 3 characters long, and you password must be at least 5 characters long.";	
+
 	} else if (isset($_POST["logout"])) {
 		doLogout();
 		exit();
@@ -125,6 +137,21 @@ p {
 				echo '</form>';
 
 				echo '<br><br>';
+
+				// Update user info form
+				echo $update_notify."<br>";
+				echo '<form action="'.($_SERVER["PHP_SELF"]).'?user='.$_SESSION["username"].'" method="POST">';
+				echo '<p>Change User Settings</p>';
+				echo 'Password:<br>';
+				echo '<input type="password" name="password"><br>';
+				echo 'First Name<br>';
+				echo '<input type="text" name="fname"><br>';
+				echo 'Last Name:<br>';
+				echo '<input type="text" name="lname"><br>';
+				echo 'Email<br>';
+				echo '<input type="email" name="email"><br><br>';
+				echo '<input type="submit" name="updateSettings" value="Update Settings">';
+				echo '</form>';
 
 			}
 		} else

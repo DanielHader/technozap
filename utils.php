@@ -34,6 +34,18 @@
 		}
 	}
 
+	function doUpdateSettings($conn, $password, $fname, $lname, $email, &$update_notify) {
+		if ($result = mysqli_query($conn, "SELECT `id` FROM `users` WHERE `email` LIKE '".$email."' ")) {
+			if (mysqli_num_rows($result) == 0) {
+				$hashed = hash("sha256", "SUPERSECRETSALT".$password);
+				if (mysqli_query($conn, "UPDATE users SET `password` = '$hash', `first name` = '$firstname', `last name` = '$lastname', `email` = '$email' WHERE `id` = '$userid'"))
+					$update_notify = "Settings updated!<br>";
+			} else
+				$update_notify = "That email has already been taken.<br>";
+			mysqli_free_result($result);
+		}
+	}	
+
 	function createGroup($conn, $groupName, $groupDesc, &$createGroup_notify) {
 		$groupName = mysqli_real_escape_string($conn, $groupName);
 		$groupDesc = mysqli_real_escape_string($conn, $groupDesc);
