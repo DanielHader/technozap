@@ -1,272 +1,132 @@
 <?php
-require_once "util/db_connect.php";
-require_once "util/createGroup.php";
-require_once "util/joinGroup.php";
-require_once "util/login.php";
-require_once "util/register.php";
-require_once "util/getGroupPosts.php";
-require_once "util/doPost.php";
-require_once "util/leaveGroup.php";
-require_once "util/changeUserInfo.php";
-require_once "util/sendRecoveryEmail.php";
+	session_start();
 
-session_start();
+	require_once "db_connect.php"; // defines $conn
+	require_once "utils.php";
 
-function registerForm() {
-?>
-	<form action="index.php" method="POST">
-		Username:	<input type="text" name="username"><br>
-		Password:	<input type="password" name="password"><br>
-		First Name:	<input type="text" name="firstname"><br>
-		Last Name:	<input type="text" name="lastname"><br>
-		Email:		<input type="text" name="email"><br>
-		
-		<input type="text" hidden="true" name="register" value="1">
-		<input type="submit" value="Register">
-	</form>
-<?php
-}
+	$login_notify = "";
+	$register_notify = "";
 
-function sendRecoveryEmailForm() {
-?>
-	<form action="index.php" method="POST">
-		Email:	<input type="text" name="email"><br>
-		
-		<input type="text" hidden="true" name="sendRecoveryEmail" value="1">
-		<input type="submit" value="Recover account">
-	</form>
-<?php
-}
+	if (isset($_POST["login"])) {
+		$username = mysqli_real_escape_string($conn, $_POST["username"]);
+		$password = mysqli_real_escape_string($conn, $_POST["password"]);
 
-function loginForm() {
-?>
-	<form action="index.php" method="POST">
-		Username:	<input type="text" name="username"><br>
-		Password:	<input type="password" name="password"><br>
-		
-		<input type="text" hidden="true" name="login" value="1">
-		<input type="submit" value="Login">
-	</form>
-<?php
-}
-
-function logoutForm() {
-?>
-	<form action="index.php" method="POST">
-
-		<input type="text" hidden="true" name="logout" value="1">
-		<input type="submit" value="Logout">
-	</form>	
-<?php
-}
-
-function createGroupForm() {
-?>
-	<form action="index.php" method="POST">
-		
-		Group Name:			<input type="text" name="groupName"><br>
-		Group Description:	<input type="text" name="groupDesc"><br>
-		
-		<input type="text" hidden="true" name="create_group" value="1">
-		<input type="submit" value="Create group">
-	</form>
-<?php
-}
-
-function joinGroupForm() {
-	$conn = connect();
-	$groups	= getGroupList($conn);
-	close($conn);
-?>
-	<div id="join_group_div">
-		Join Group
-		<form action="index.php" method="POST">
-			<select name="group_select[]" multiple="multiple">
-			
-			<?php
-			foreach ($groups as $group) {
-				echo "<option value=\"$group[0]\">$group[0]</option>";
-			}
-			?>
-
-			</select>
-			<input type="text" hidden="true" name="join_group" value="1">
-			<input type="submit" value="join">
-		</form>
-	</div>
-<?php
-}
-
-function leaveGroupForm() {
-	$conn = connect();
-	$groups	= getGroupList($conn);
-	close($conn);
-?>
-	<div id="leave_group_div">
-		Leave Group
-		<form action="index.php" method="POST">
-			<select name="group_select[]" multiple="multiple">
-			
-			<?php
-			foreach ($groups as $group) {
-				echo "<option value=\"$group[0]\">$group[0]</option>";
-			}
-			?>
-
-			</select>
-			<input type="text" hidden="true" name="leave_group" value="1">
-			<input type="submit" value="leave">
-		</form>
-	</div>
-<?php
-}
-
-function viewGroupContentForm() {
-	$conn = connect();
-	$groups	= getGroupList($conn);
-	close($conn);
-?>
-	<div id="view_group_div">
-		View Group Content
-		<form action="index.php" method="POST">
-			<select name="group_select[]" multiple="multiple">
-			
-			<?php
-			foreach ($groups as $group) {
-				echo "<option value=\"$group[0]\">$group[0]</option>";
-			}
-			?>
-
-			</select>
-			<input type="text" hidden="true" name="view_group" value="1">
-			<input type="submit" value="view">
-		</form>
-	</div>
-<?php
-}
-
-function doPostForm() {
-	$conn = connect();
-	$groups	= getGroupList($conn);
-	close($conn);
-?>
-	<div id="post_group_div">
-		Post
-		<form action="index.php" method="POST">
-			<select name="group_select[]" multiple="multiple">
-			
-			<?php
-			foreach ($groups as $group) {
-				echo "<option value=\"$group[0]\">$group[0]</option>";
-			}
-			?>
-
-			</select>
-			<br>
-			<input type="text" name="post_group_content">
-			<input type="text" hidden="true" name="post_group" value="1">
-			<input type="submit" value="post">
-		</form>
-	</div>
-<?php
-}
-
-function changeUserInfoForm() {
-?>
-	<form action="index.php" method="POST">
-		Password:	<input type="password" name="password"><br>
-		First Name:	<input type="text" name="firstname"><br>
-		Last Name:	<input type="text" name="lastname"><br>
-		Email:		<input type="text" name="email"><br>
-		
-		<input type="text" hidden="true" name="changeUserInfo" value="1">
-		<input type="submit" value="Update">
-	</form>
-<?php
-}
-
-
-function generateHTML($message) {
-	
-	?>
-	<html>
-		<title>Techno Zap!</title>
-		<body>
-			<h1>Techno Zap!</h1>
-	<?php
-
-	echo "<h3>$message</h3><hr>";
-
-	if (!isset($_SESSION["userId"])) {
-		loginForm();
-		echo "<hr>";
-		registerForm();
-		echo "<hr>";
-		sendRecoveryEmailForm();
-	
-	} else {
-		logoutForm();
-		echo "<hr>";
-		createGroupForm();
-		echo "<hr>";
-		joinGroupForm();
-		echo "<hr>";
-		leaveGroupForm();
-		echo "<hr>";
-		viewGroupContentForm();
-		echo "<hr>";
-		doPostForm();
-		echo "<hr>";
-		changeUserInfoForm()
-	}
-
-	?>
-		</body>
-	</html>
-	<?php
-}
-
-	$conn = connect();
-	if (!$conn)
-		die("Could not connect to MySQL server: ".mysqli_connect_error());
-
-	$message = "";
-	if (isset($_POST["logout"])) {
-		$message = "you are now logged out";
-		unset($_SESSION["userId"]);
-		unset($_POST["logout"]);
+		if (strlen($username) >= 3 && strlen($password) >= 5)
+			doLogin($conn, $username, $password, $login_notify);
+		else
+			$login_notify = "Your username must be at least 3 characters long and password 5 characters long.";
 	} else if (isset($_POST["register"])) {
-		register($conn, $_POST["username"], $_POST["password"], $_POST["firstname"], $_POST["lastname"], $_POST["email"], $message);
-		unset($_POST["register"]);
-	} else if (isset($_POST["changeUserInfo"])) {
-		changeUserInfo($conn, $_SESSION["userId"], $_POST["password"], $_POST["firstname"], $_POST["lastname"], $_POST["email"], $message);
-		unset($_POST["changeUserInfo"]);
-	} else if (isset($_POST["sendRecoveryEmail"])) {
-		sendRecoveryEmail($conn, $_POST["email"], $message);
-		unset($_POST["sendRecoveryEmail"]);
-	} else if (isset($_POST["login"])) {
-		$userId = 0;
-		if (login($conn, $_POST["username"], $_POST["password"], $userId, $message))
-			$_SESSION["userId"] = $userId;
-		unset($_POST["login"]);
-	} else if (isset($_POST["create_group"])) {
-		createGroup($conn, $_POST["groupName"], $_POST["groupDesc"], $message);
-		unset($_POST["create_group"]);
-	} else if (isset($_POST["join_group"])) {
-		joinGroup($conn, $_POST["group_select"], $_SESSION["userId"], $message);
-		unset($_POST["join_group"]);
-	} else if (isset($_POST["leave_group"])) {
-		leaveGroup($conn, $_POST["group_select"], $_SESSION["userId"], $message);
-		unset($_POST["leave_group"]);
-	} else if (isset($_POST["view_group"])) {
-		viewGroupContent($conn, $_POST["group_select"], $message);
-		unset($_POST["view_group"]);
-	} else if (isset($_POST["post_group"])) {
-		doPost($conn, $_SESSION["userId"], $_POST["group_select"], $_POST["post_group_content"], $message);
-		unset($_POST["post_group"]);
+		$username = mysqli_real_escape_string($conn, $_POST["username"]);
+		$password = mysqli_real_escape_string($conn, $_POST["password"]);
+		$fname = mysqli_real_escape_string($conn, $_POST["fname"]);
+		$lname = mysqli_real_escape_string($conn, $_POST["lname"]);
+		$email = mysqli_real_escape_string($conn, $_POST["email"]);
+
+		if (strlen($username) >= 3 && strlen($password) >= 5) {
+			if (strlen($fname) >= 3 && strlen($lname) >= 3)
+				doRegister($conn, $username, $password, $fname, $lname, $email, $register_notify);
+			else
+				$register_notify = "Your first and last name should each be at least 3 characters long.";
+		} else
+			$register_notify = "Your username must be at least 3 characters long and password 5 characters long.";
 	}
-
-	generateHTML($message);
-
-	close($conn);
 ?>
+
+<html>
+	<title>TechnoZap</title>
+	<head>
+        <style>
+        h1 {
+   	   color: yellow;
+   	   text-align: center;
+   	   letter-spacing: 2px;
+   	   font-family: "Times New Roman", Times, serif;
+   	   font-style: italic;
+   	   font-size: 50px;
+   	   font-weight: bold;
+  	   font-variant: small-caps;
+	}
+        body {
+	   background-color: black;
+	   color: white;
+        }
+        form {
+           text-align: center;
+           margin-left: 530px;
+           margin-right: 530px;
+           margin-bottom: 10px;
+           border: 2px solid yellow;
+        }
+        p {
+       	color: yellow;
+   	text-align: center;
+   	letter-spacing: 2px;
+   	font-family: "Times New Roman", Times, serif;
+   	font-style: italic;
+   	font-size: 20px;
+   	font-weight: bold;
+  	font-variant: small-caps;
+        }
+       input[type=text] {
+    border: 2px solid red;
+    border-radius: 4px;
+}
+     input[type=password] {
+    border: 2px solid red;
+    border-radius: 4px;
+}
+     input[type=email] {
+    border: 2px solid red;
+    border-radius: 4px;
+}
+input[type=submit] {
+    padding:5px 15px; 
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    margin-bottom: 10px;
+}
+       </style>
+       </head>
+       <body>
+	<h1>TechnoZap</h1>
+
+	<?php
+		if (!isset($_SESSION["userId"])) { // Not logged in; display login, register, and possibly password recovery
+			echo $login_notify;
+	?>
+			<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+				Username:<br>
+				<input type="text" name="username"><br>
+				Password:<br>
+				<input type="password" name="password"><br><br>
+				<input type="submit" name="login" value="Login">
+			</form>
+			
+			<br>
+	<?php
+			echo $register_notify;
+	?>
+			<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+				Username:<br>
+				<input type="text" name="username"><br>
+				Password:<br>
+				<input type="password" name="password"><br>
+				First Name<br>
+				<input type="text" name="fname"><br>
+				Last Name:<br>
+				<input type="text" name="lname"><br>
+				Email<br>
+				<input type="email" name="email"><br><br>
+				<input type="submit" name="register" value="Register">
+			</form>
+	<?php
+		} else { // Is logged in; redirect to profile page
+			header("Location: viewProfile.php?user=".$_SESSION["username"]);
+			exit();
+		}
+	?>
+</body>
+</html>
