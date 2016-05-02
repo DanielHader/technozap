@@ -97,7 +97,7 @@
 	function getGroupPosts($conn, $groupId, &$output) {
 		if ($result = mysqli_query($conn, "SELECT * FROM posts WHERE `groupid` = '$groupId' ORDER BY `date` DESC")) {
 			while ($curPost = mysqli_fetch_array($result, MYSQLI_ASSOC))
-				$output .= '<div style="width:500px;height:100px;border:1px solid #000;">'.$curPost["userName"].' - '.($curPost["date"]).'<br>'.$curPost["content"].'</div><br>';
+				$output .= '<div class="panel panel-default"><div class="panel-heading">'.$curPost["userName"].' - '.($curPost["date"]).'</div><div class="panel-body">'.$curPost["content"].'</div></div>';
 
 			mysqli_free_result($result);
 		}
