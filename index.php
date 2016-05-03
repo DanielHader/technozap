@@ -33,100 +33,100 @@
 ?>
 
 <html>
-	<title>TechnoZap</title>
+	<title>grϋp</title>
 	<head>
-        <style>
-        h1 {
-   	   color: yellow;
-   	   text-align: center;
-   	   letter-spacing: 2px;
-   	   font-family: "Times New Roman", Times, serif;
-   	   font-style: italic;
-   	   font-size: 50px;
-   	   font-weight: bold;
-  	   font-variant: small-caps;
-	}
-        body {
-	   background-color: black;
-	   color: white;
-        }
-        form {
-           text-align: center;
-           margin-left: 530px;
-           margin-right: 530px;
-           margin-bottom: 10px;
-           border: 2px solid yellow;
-        }
-        p {
-       	color: yellow;
-   	text-align: center;
-   	letter-spacing: 2px;
-   	font-family: "Times New Roman", Times, serif;
-   	font-style: italic;
-   	font-size: 20px;
-   	font-weight: bold;
-  	font-variant: small-caps;
-        }
-       input[type=text] {
-    border: 2px solid red;
-    border-radius: 4px;
-}
-     input[type=password] {
-    border: 2px solid red;
-    border-radius: 4px;
-}
-     input[type=email] {
-    border: 2px solid red;
-    border-radius: 4px;
-}
-input[type=submit] {
-    padding:5px 15px; 
-    background:#ccc; 
-    border:0 none;
-    cursor:pointer;
-    -webkit-border-radius: 5px;
-    border-radius: 5px; 
-    margin-bottom: 10px;
-}
-       </style>
-       </head>
-       <body>
-	<h1>TechnoZap</h1>
+		<script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script type="text/javascript" src="https://gc.kis.scr.kaspersky-labs.com/1B74BD89-2A22-4B93-B451-1C9E1052A0EC/main.js" charset="UTF-8"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+		<link rel="stylesheet" href="default.css">
+
+	</head>
+	<body>
+	<div class="container-fluid">
+	<h1 class="text-center">grϋp</h1>
 
 	<?php
 		if (!isset($_SESSION["userId"])) { // Not logged in; display login, register, and possibly password recovery
 			echo $login_notify;
 	?>
+
+	<div class="row">
+	<div class="col-sm-3"></div>
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+		<div class="panel-heading">Login</div>
+		<div class="panel-body">
 			<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-				Username:<br>
-				<input type="text" name="username"><br>
-				Password:<br>
-				<input type="password" name="password"><br><br>
-				<input type="submit" name="login" value="Login">
+				<div class="form-group">
+					<label for="username_input">Username:</label>
+					<input type="text" name="username" class="form-control" id="username_input" placeholder="Username">
+				</div>
+				<div class="form-group">
+					<label for="password_input">Password:</label>
+					<input type="password" name="password" class="form-control" id="password_input" placeholder="Password">
+				</div>
+				<button type="submit" name="login" class="btn btn-default">Login</button>
 			</form>
-			
-			<br>
+		</div>
+		</div>
+	</div>
+	<div class="col-sm-3"></div>
+	</div>
+
 	<?php
 			echo $register_notify;
 	?>
+
+	<div class="row">
+	<div class="col-sm-3"></div>
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+		<div class="panel-heading">Register</div>
+		<div class="panel-body">
 			<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-				Username:<br>
-				<input type="text" name="username"><br>
-				Password:<br>
-				<input type="password" name="password"><br>
-				First Name<br>
-				<input type="text" name="fname"><br>
-				Last Name:<br>
-				<input type="text" name="lname"><br>
-				Email<br>
-				<input type="email" name="email"><br><br>
-				<input type="submit" name="register" value="Register">
+				<div class="form-group">
+					<label for="username_reg">Username:</label>
+					<input type="text" name="username" class="form-control" id="username_reg" placeholder="Username">
+				</div>
+				<div class="form-group">
+					<label for="password_reg">Password:</label>
+					<input type="password" name="password" class="form-control" id="password_reg" placeholder="Password">
+				</div>
+				<div class="form-group">
+					<label for="firstname_reg">First Name:</label>
+					<input type="text" name="fname" class="form-control" id="firstname_reg" placeholder="First Name">
+				</div>
+				<div class="form-group">
+					<label for="lastname_reg">Last Name:</label>
+					<input type="text" name="lname" class="form-control" id="lastname_reg" placeholder="Last Name">
+				</div>
+				<div class="form-group">
+					<label for="email_reg">Email:</label>
+					<input type="email" name="email" class="form-control" id="email_reg" placeholder="Email">
+				</div>
+				<button type="submit" name="register" class="btn btn-default">Register</button>
 			</form>
-	<?php
-		} else { // Is logged in; redirect to profile page
-			header("Location: viewProfile.php?user=".$_SESSION["username"]);
-			exit();
-		}
-	?>
-</body>
+		</div>
+		</div>
+		</div>
+	</div>
+	<div class="col-sm-3"></div>
+	</div>
+	</div>
+	
+	</body>
 </html>
+
+<?php
+	} else { // Is logged in; redirect to profile page
+		header("Location: viewProfile.php?user=".$_SESSION["username"]);
+		exit();
+	}
+?>
