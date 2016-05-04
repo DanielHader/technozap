@@ -3,7 +3,6 @@
 	require_once "db_connect.php";
 	require_once "utils.php";
 
-
 	function renderChatBox($groupName, $postLoc) {
 
 	?>
@@ -112,30 +111,36 @@
 	if ($result = mysqli_query($conn, "SELECT * FROM `groups` WHERE `name` LIKE '$groupName'")) {
 		if (mysqli_num_rows($result) > 0) {
 			$info = mysqli_fetch_array($result);
-			echo '<h1 class="text-center">'.$info["name"].'</h1>';
-			echo '<h3 class="text-center">'.$info["description"].'</h3>';
-			echo '[group picture maybe]';
 
+			echo '<div class="row" style="margin-left: 2%;margin-top: 3%;">';
+			echo '<div class="col-sm-5">';
+			echo '<img class="img-responsive" style="display: block; margin: 0 auto;width: 100%; height: 100%;max-width: 600px; max-height: 250px;" src="'.getGroupImage($conn, $info["name"]).'" alt=""></div>';
+			echo '<div class="col-sm-3">';
+			echo '<h1 class=>'.$info["name"].'</h1></div>';
+			echo '<div class="col-sm-3 text-center"><h3>'.$info["description"].'</h3></div>';
+			echo '<div class="col-sm-1"></div>';
+				  
 			if (isset($_SESSION["userId"])) {
 				if ($result = mysqli_query($conn, "SELECT `linkid` FROM `uglink` WHERE `groupName` = '".$info["name"]."' AND `userid` = '".$_SESSION["userId"]."'")) {
 
 					echo '<div class="row">';
-					echo '<div class="col-sm-10"></div>';
-					echo '<div class="col-sm-1">';
+					echo '<div class="col-sm-9"></div>';
+					echo '<div class="col-sm-3">';
 					//back to profile button
 					echo '<form action="viewProfile.php?user='.($_SESSION["username"]).'" method="POST">';
 					echo '<button type="submit" name="returnProfile" class="btn btn-default">Return to Profile</button>';
-					echo '</form></div>';
-					echo '<div class="col-sm-1"></div></div>';
+					echo '</form></div>	';
 
+
+	
 					if (mysqli_num_rows($result) > 0) {
 						// leave group button
 						echo '<div class="row">';
-						echo '<div class="col-sm-10"></div>';
-						echo '<div class="col-sm-1">';
+						echo '<div class="col-sm-9"></div>';
+						echo '<div class="col-sm-3">';
 						echo '<form action="'.($_SERVER["PHP_SELF"]).'?groupName='.$info["name"].'" method="POST">';
 						echo '<input type="hidden" name="groupName" value="'.$info["name"].'">';
-						echo '<button type="submit" name="leaveGroup" class="btn btn-default">Leave group</button>';
+						echo '<button type="submit" name="leaveGroup" class="btn btn-default text-center">Leave group</button>';
 						echo '</form>';
 						echo '</div><div class="col-sm-1"></div>';
 						echo '</div>';
@@ -144,16 +149,21 @@
 					} else {
 						// join group button
 						echo '<div class="row">';
-						echo '<div class="col-sm-10"></div>';
-						echo '<div class="col-sm-1">';
+						echo '<div class="col-sm-9"></div>';
+						echo '<div class="col-sm-3">';
 						echo '<form action="'.($_SERVER["PHP_SELF"]).'?groupName='.$info["name"].'" method="POST">';
 						echo '<input type="hidden" name="groupName" value="'.$info["name"].'">';
-						echo '<button type="submit" name="joinGroup" class="btn btn-default">Join group</button>';
+						echo '<button type="submit" name="joinGroup" class="btn btn-default text-center">Join group</button>';
 						echo '</form>';
 						echo '</div><div class="col-sm-1"></div>';
 						echo '</div>';
 						echo '<hr>';
 					}
+
+					echo '<div class="col-sm-1"></div></div>';
+
+
+					echo '<hr>';
 				}
 			}
 
@@ -161,7 +171,8 @@
 			// grabbing posts
 			$posts = '<div class="row">';
 			$posts .= '<div class="col-sm-1"></div>';
-			$posts .= '<div class="col-sm-5">';
+
+			$posts .= '<div class="col-sm-7">';
 			$posts .= '<div class="panel panel-default">';
 			$posts .= '<div class="panel-heading">Group Posts</div>';
 			$posts .= '<div class="panel-body">';
@@ -180,7 +191,7 @@
 			getGroupPosts($conn, $info["id"], $posts);
 
 			$posts .= '</div></div></div>';
-			$posts .= '<div class="col-sm-5">';
+			$posts .= '<div class="col-sm-3">';
 			
 			if (mysqli_num_rows($result) > 0) {
 
@@ -200,14 +211,9 @@
 			$posts .= '</div>';
 			$posts .= '<div class="col-sm-1"></div>';
 			$posts .= '</div>';
-			//$posts .= '</div>';
-			//$posts .= '</div>';
-			//$posts .= '</div>';
 			
 			echo $posts;
-			//
 
-			// 
 		} else {
 			echo '<h2>Uh oh, you have 404\'d!</h2>';
 			exit();
