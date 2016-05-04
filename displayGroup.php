@@ -138,15 +138,6 @@
 						echo '</div>';
 						echo '<hr>';
 
-/*
-						// post to group option
-						echo '<form action="'.($_SERVER["PHP_SELF"]).'?groupName='.$info["name"].'" method="POST">';
-						echo '<input type="textbox" name="postContent">';
-						echo '<input type="hidden" name="groupId" value="'.$info["id"].'">';
-						echo '<input type="submit" name="postGroup" value="Post">';
-						echo '</form>';
-*/
-
 					} else {
 						// join group button
 						echo '<div class="row">';
@@ -171,6 +162,17 @@
 			$posts .= '<div class="panel panel-default">';
 			$posts .= '<div class="panel-heading">Group Posts</div>';
 			$posts .= '<div class="panel-body">';
+
+			if (mysqli_num_rows($result) > 0) {
+				// post to group option
+				$posts .= '<form action="'.($_SERVER["PHP_SELF"]).'?groupName='.$info["name"].'" method="POST">';
+				$posts .= '<div type="form-group">';
+				$posts .= '<textarea rows="3" name="postContent" class="form-control" placeholder="Post Content"></textarea>';
+				$posts .= '</div>';
+				$posts .= '<input type="hidden" name="groupId" value="'.$info["id"].'">';
+				$posts .= '<button type="submit" name="postGroup" class="btn btn-default">Post</button>';
+				$posts .= '</form>';
+			}
 			
 			getGroupPosts($conn, $info["id"], $posts);
 
