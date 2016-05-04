@@ -111,7 +111,9 @@
 	}
 
 	function joinGroup($conn, $userId, $groupname) {
-		mysqli_query($conn, "INSERT INTO `uglink` (`linkid`, `groupName`, `userid`) VALUES (NULL, '$groupname', '$userId')");
+			if (mysqli_num_rows($result) == 0) 
+				mysqli_query($conn, "INSERT INTO `uglink` (`linkid`, `groupName`, `userid`) VALUES (NULL, '$groupname', '$userId')");
+		}
 	}
 
 	function doPost($conn, $groupId, $content) {
