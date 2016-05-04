@@ -17,9 +17,10 @@
 		$fname = mysqli_real_escape_string($conn, $_POST["fname"]);
 		$lname = mysqli_real_escape_string($conn, $_POST["lname"]);
 		$email = mysqli_real_escape_string($conn, $_POST["email"]);
+		$image = mysqli_real_escape_string($conn, $_POST["image"]);
 
 		if (strlen($fname) >= 3 && strlen($lname) >= 3 && strlen($password) >= 5)
-			doUpdateSettings($conn, $password, $fname, $lname, $email, $update_notify);
+			doUpdateSettings($conn, $password, $fname, $lname, $email, $image, $update_notify);
 		else
 			$update_notify = "Your first and last name should each be at least 3 characters long, and you password must be at least 5 characters long.";	
 
@@ -161,6 +162,10 @@
 				echo '<div class="form-group">';
 				echo '<label for="email">Email:</label>';
 				echo '<input type="email" name="email" class="form-control" id="email" placeholder="Email">';
+				echo '</div>';
+				echo '<div class="form-group">';
+				echo '<label for="imagec">Profile Picture:</label>';
+				echo '<input type="text" name="image" class="form-control" id="image" placeholder="Profile Picture URL">';
 				echo '</div>';
 				echo '<button type="submit" name="updateSettings" class="btn btn-default">Update Settings</button>';
 				echo '</form>';
