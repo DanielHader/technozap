@@ -89,13 +89,16 @@
 	
 	if (isset($_POST["leaveGroup"])) {
 		leaveGroup($conn, $_SESSION["userId"], $_POST["groupName"]);
+		unset($_POST["leaveGroup"]);
 	}
 	if (isset($_POST["joinGroup"])) {
 		joinGroup($conn, $_SESSION["userId"], $_POST["groupName"]);
+		unset($_POST["joinGroup"]);
 	}
 	if (isset($_POST["postGroup"])) {
 		doPost($conn, $_POST["groupId"], $_POST["postContent"]);
 		unset($_POST["postContent"]);
+		unset($_POST["postGroup"]);
 	}
 	if (isset($_POST["postChat"])) {
 		$text = $_POST["postChat"];
