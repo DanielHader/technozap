@@ -117,30 +117,31 @@
 			echo '<img class="img-responsive" style="display: block; margin: 0 auto;width: 100%; height: 100%;max-width: 600px; max-height: 250px;" src="'.getGroupImage($conn, $info["name"]).'" alt=""></div>';
 			echo '<div class="col-sm-3">';
 			echo '<h1 class=>'.$info["name"].'</h1></div>';
-			echo '<div class="col-sm-3 text-center"><h3>'.$info["description"].'</h3></div>';
+			echo '<div class="col-sm-3"><h3 class="text-center">'.$info["description"].'</h3></div>';
 			echo '<div class="col-sm-1"></div>';
 				  
 			if (isset($_SESSION["userId"])) {
 				if ($result = mysqli_query($conn, "SELECT `linkid` FROM `uglink` WHERE `groupName` = '".$info["name"]."' AND `userid` = '".$_SESSION["userId"]."'")) {
 
 					echo '<div class="row">';
-					echo '<div class="col-sm-9"></div>';
-					echo '<div class="col-sm-3">';
+					echo '<div class="col-sm-8"></div>';
+					echo '<div class="col-sm-3 text-center">';
 					//back to profile button
 					echo '<form action="viewProfile.php?user='.($_SESSION["username"]).'" method="POST">';
 					echo '<button type="submit" name="returnProfile" class="btn btn-default">Return to Profile</button>';
-					echo '</form></div>	';
+					echo '</form></div>';
+					echo '<div class="col-sm-1"></div></div>';
 
 
 	
 					if (mysqli_num_rows($result) > 0) {
 						// leave group button
 						echo '<div class="row">';
-						echo '<div class="col-sm-9"></div>';
-						echo '<div class="col-sm-3">';
+						echo '<div class="col-sm-8"></div>';
+						echo '<div class="col-sm-3 text-center">';
 						echo '<form action="'.($_SERVER["PHP_SELF"]).'?groupName='.$info["name"].'" method="POST">';
 						echo '<input type="hidden" name="groupName" value="'.$info["name"].'">';
-						echo '<button type="submit" name="leaveGroup" class="btn btn-default text-center">Leave group</button>';
+						echo '<button type="submit" name="leaveGroup" class="btn btn-default">Leave group</button>';
 						echo '</form>';
 						echo '</div><div class="col-sm-1"></div>';
 						echo '</div>';
@@ -149,11 +150,11 @@
 					} else {
 						// join group button
 						echo '<div class="row">';
-						echo '<div class="col-sm-9"></div>';
+						echo '<div class="col-sm-8"></div>';
 						echo '<div class="col-sm-3">';
 						echo '<form action="'.($_SERVER["PHP_SELF"]).'?groupName='.$info["name"].'" method="POST">';
 						echo '<input type="hidden" name="groupName" value="'.$info["name"].'">';
-						echo '<button type="submit" name="joinGroup" class="btn btn-default text-center">Join group</button>';
+						echo '<button type="submit" name="joinGroup" class="btn btn-default">Join group</button>';
 						echo '</form>';
 						echo '</div><div class="col-sm-1"></div>';
 						echo '</div>';
@@ -172,7 +173,7 @@
 			$posts = '<div class="row">';
 			$posts .= '<div class="col-sm-1"></div>';
 
-			$posts .= '<div class="col-sm-7">';
+			$posts .= '<div class="col-sm-6">';
 			$posts .= '<div class="panel panel-default">';
 			$posts .= '<div class="panel-heading">Group Posts</div>';
 			$posts .= '<div class="panel-body">';
@@ -191,7 +192,7 @@
 			getGroupPosts($conn, $info["id"], $posts);
 
 			$posts .= '</div></div></div>';
-			$posts .= '<div class="col-sm-3">';
+			$posts .= '<div class="col-sm-4">';
 			
 			if (mysqli_num_rows($result) > 0) {
 
