@@ -111,6 +111,7 @@
 	}
 
 	function joinGroup($conn, $userId, $groupname) {
+		if ($result = mysqli_query($conn, "SELECT * FROM uglink WHERE `groupName` LIKE '$groupname' AND `userid` = '$userId'")) {
 			if (mysqli_num_rows($result) == 0) 
 				mysqli_query($conn, "INSERT INTO `uglink` (`linkid`, `groupName`, `userid`) VALUES (NULL, '$groupname', '$userId')");
 		}
