@@ -37,11 +37,11 @@
 		}
 	}
 
-	function doUpdateSettings($conn, $password, $fname, $lname, $email, &$update_notify) {
+	function doUpdateSettings($conn, $password, $fname, $lname, $email, $image, &$update_notify) {
 		if ($result = mysqli_query($conn, "SELECT `id` FROM `users` WHERE `email` LIKE '$email' AND `id` !=  '".$_SESSION["userId"]."'")) {
 			if (mysqli_num_rows($result) == 0) {
 				$hashed = hash("sha256", "SUPERSECRETSALT".$password);
-				if (mysqli_query($conn, "UPDATE users SET `password` = '$hashed', `first name` = '$fname', `last name` = '$lname', `email` = '$email' WHERE `id` = '".$_SESSION["userId"]."'"))
+				if (mysqli_query($conn, "UPDATE users SET `password` = '$hashed', `first name` = '$fname', `last name` = '$lname', `email` = '$email', `image` = '$image' WHERE `id` = '".$_SESSION["userId"]."'"))
 					$update_notify = "Settings updated!<br>";
 			} else
 				$update_notify = "That email has already been taken.<br>";
@@ -49,7 +49,7 @@
 		}
 	}	
 
-	function createGroup($conn, $groupName, $groupDesc, &$createGroup_notify) {
+	function createGroup($conn, $groupName, $groupDesc, $image, &$createGroup_notify) {
 		$groupName = mysqli_real_escape_string($conn, $groupName);
 		$groupDesc = mysqli_real_escape_string($conn, $groupDesc);
 		
@@ -60,7 +60,7 @@
 
 		if ($result = mysqli_query($conn, "SELECT * FROM groups WHERE name LIKE '$groupName'")) {
 			if (mysqli_num_rows($result) == 0) {
-				if (!mysqli_query($conn, "INSERT INTO groups (id, name, description) VALUES (null, '$groupName', '$groupDesc')"))
+				if (!mysqli_query($conn, "INSERT INTO groups (id, name, description, image) VALUES (null, '$groupName', '$groupDesc', '$image')"))
 					$createGroup_notify = "An error occurred in creating this group: " . mysqli_error($conn);
 				else
 					$createGroup_notify = "Created group '$groupName'!";
