@@ -52,9 +52,11 @@
 <body>
 	<div class="container-fluid">
 <?php
-			echo '<h1 class="text-center">'.$info["first name"].' '.$info["last name"].'</h1>';
+
 
 			if (isset($_SESSION["username"]) && strcmp($_SESSION["username"], $_GET["user"]) == 0) {
+				echo '<h1 class="text-center">'.$info["first name"].' '.$info["last name"].'</h1>';
+				echo '<img src="'.getImage($conn, $_SESSION["username"]).'" alt="No Profile Picture">';
 				// Logout form
 
 				echo '<div class="row">';

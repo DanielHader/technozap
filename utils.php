@@ -25,6 +25,17 @@
 	    header("Location: ../");
 	}
 
+	function getImage($conn, $username) {
+		if ($result = mysqli_query($conn, "SELECT `image` FROM `users` WHERE `username` LIKE '".$username."'")) {
+			if (mysqli_num_rows($result) == 0) {
+				return "";
+			} else {
+				$row = mysqli_fetch_array($result);
+				return $row["image"];
+			}
+		}
+	}
+
 	function doRegister($conn, $username, $password, $fname, $lname, $email, &$register_notify) {
 		if ($result = mysqli_query($conn, "SELECT `id` FROM `users` WHERE `username` LIKE '".$username."' OR `email` LIKE '".$email."'")) {
 			if (mysqli_num_rows($result) == 0) {
