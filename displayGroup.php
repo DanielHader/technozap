@@ -113,7 +113,7 @@
 		if (mysqli_num_rows($result) > 0) {
 			$info = mysqli_fetch_array($result);
 
-			echo '<div class="row" style="margin-left: 2%;margin-top: 3%;">';
+			echo '<div class="row" style="margin-top: 3%;margin-right:0px !important">';
 			echo '<div class="col-sm-5">';
 			echo '<img class="img-responsive" style="display: block; margin: 0 auto;width: 100%; height: 100%;max-width: 600px; max-height: 250px;" src="'.getGroupImage($conn, $info["name"]).'" alt=""></div>';
 			echo '<div class="col-sm-3">';
@@ -124,7 +124,7 @@
 			if (isset($_SESSION["userId"])) {
 				if ($result = mysqli_query($conn, "SELECT `linkid` FROM `uglink` WHERE `groupName` = '".$info["name"]."' AND `userid` = '".$_SESSION["userId"]."'")) {
 
-					echo '<div class="row">';
+					echo '<div class="row" style="margin-right:0px !important">';
 					echo '<div class="col-sm-8"></div>';
 					echo '<div class="col-sm-3 text-center">';
 					//back to profile button
@@ -137,7 +137,7 @@
 	
 					if (mysqli_num_rows($result) > 0) {
 						// leave group button
-						echo '<div class="row">';
+						echo '<div class="row" style="margin-right:0px !important">';
 						echo '<div class="col-sm-8"></div>';
 						echo '<div class="col-sm-3 text-center">';
 						echo '<form action="'.($_SERVER["PHP_SELF"]).'?groupName='.$info["name"].'" method="POST">';
@@ -150,9 +150,9 @@
 
 					} else {
 						// join group button
-						echo '<div class="row">';
+						echo '<div class="row" style="margin-right:0px !important">';
 						echo '<div class="col-sm-8"></div>';
-						echo '<div class="col-sm-3">';
+						echo '<div class="col-sm-3 text-center">';
 						echo '<form action="'.($_SERVER["PHP_SELF"]).'?groupName='.$info["name"].'" method="POST">';
 						echo '<input type="hidden" name="groupName" value="'.$info["name"].'">';
 						echo '<button type="submit" name="joinGroup" class="btn btn-default">Join group</button>';
@@ -163,15 +163,12 @@
 					}
 
 					echo '<div class="col-sm-1"></div></div>';
-
-
-					echo '<hr>';
 				}
 			}
 
 
 			// grabbing posts
-			$posts = '<div class="row">';
+			$posts = '<div class="row" style="margin-right:0px !important">';
 			$posts .= '<div class="col-sm-1"></div>';
 
 			$posts .= '<div class="col-sm-6">';
