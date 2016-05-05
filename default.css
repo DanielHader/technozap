@@ -1,0 +1,51 @@
+h1 {
+	font-family: "monofur";
+	font-size: 4em;
+	color: #7299A9;
+}
+
+hr {
+	border-top: 1px solid #7299A9;
+}
+
+iframe {
+	width: 100%;
+}
+
+img {
+	display: block;
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+	max-width: 200px;
+	max-height: 200px;
+}
+
+.pre-scrollable {
+	height: 400px;
+}
+
+body, .panel-default, .form-group, .btn-default {
+	color: #F2D289;
+	background: #303946;
+	border-color: #7299A9;
+	text-shadow: none;
+	border-radius: 0.5em;
+}
+
+.panel-default > .panel-heading {
+	background-image: none; 
+	background-color: #303946;
+	border-color: #7299A9;
+	color: #F2D289;
+	font-family: "monofur";
+	font-size: 2em;
+	border-top-right-radius: 0.5em;
+	border-top-left-radius: 0.5em;
+}
+
+.form-control {
+	background: #434F61;
+	color: #F2D289;
+	border-color: #7299A9;
+}
